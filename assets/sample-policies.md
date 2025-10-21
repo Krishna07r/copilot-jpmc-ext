@@ -1,0 +1,4 @@
+- Use TLS 1.2+; no plaintext secrets
+- No PAN/PII in logs or telemetry
+- Rotate tokens via vault every 24h
+- Use zero-trust service identity (mTLS)
