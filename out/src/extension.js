@@ -44,7 +44,7 @@ function activate(context) {
     const inlineDisposable = (0, inlineCompletions_1.registerInlineCompletions)(context);
     const policyDisposable = (0, policyPanel_1.registerPolicyPanel)(context);
     context.subscriptions.push(chatDisposable, inlineDisposable, policyDisposable);
-    vscode.window.setStatusBarMessage("JPMC Copilot tools loaded", 3000);
+    vscode.window.setStatusBarMessage('JPMC Copilot tools loaded', 3000);
 }
 function deactivate() { }
 //# sourceMappingURL=extension.js.map

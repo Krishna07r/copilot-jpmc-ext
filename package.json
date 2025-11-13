@@ -9,7 +9,8 @@
   "activationEvents": [
     "onStartupFinished",
     "onCommand:copilotJpmc.openPolicies",
-    "onChatParticipant:jpmc"
+    "onChatParticipant:jpmc",
+    "onLanguage:python"
   ],
 
   "main": "./out/src/extension.js",
@@ -22,9 +23,18 @@
       {
         "id": "jpmc",
         "name": "jpmc",
-        "description": "Service catalog lookups + guardrails (demo)"
+        "description": "Service catalog lookups + file search (Python)"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "copilotJpmc.openPolicies",
+          "group": "navigation@10",
+          "when": "resourceLangId == python"
+        }
+      ]
+    }
   },
 
   "scripts": {

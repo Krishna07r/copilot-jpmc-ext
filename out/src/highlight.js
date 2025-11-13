@@ -33,26 +33,26 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerPolicyPanel = registerPolicyPanel;
+exports.highlightRanges = highlightRanges;
+exports.clearHighlights = clearHighlights;
 const vscode = __importStar(require("vscode"));
-function registerPolicyPanel(context) {
-    return vscode.commands.registerCommand("copilotJpmc.openPolicies", async () => {
-        const panel = vscode.window.createWebviewPanel("jpmcPolicies", "JPMC Engineering Policies", vscode.ViewColumn.Beside, { enableScripts: true });
-        const mdUri = vscode.Uri.joinPath(context.extensionUri, "assets", "sample-policies.md");
-        const md = (await vscode.workspace.fs.readFile(mdUri)).toString();
-        panel.webview.html = `
-<!doctype html>
-<html>
-<body style="font-family: var(--vscode-font-family); padding:12px">
-  <h2>Policies & Guardrails</h2>
-  <pre>${md.replace(/</g, "&lt;")}</pre>
-  <button id="copy">Copy PCI Checklist</button>
-  <script>
-    document.getElementById('copy').onclick = () =>
-      navigator.clipboard.writeText('PCI: no PAN logs, TLS1.2+, vault secrets, no PII in telemetry');
-  </script>
-</body>
-</html>`;
+let deco;
+function highlightRanges(editor, ranges) {
+    if (deco)
+        deco.dispose();
+    deco = vscode.window.createTextEditorDecorationType({
+        backgroundColor: new vscode.ThemeColor('editor.findMatchBackground'),
+        border: '1px solid',
+        borderColor: new vscode.ThemeColor('editor.findMatchBorder')
     });
+    editor.setDecorations(deco, ranges);
+    if (ranges[0])
+        editor.revealRange(ranges[0], vscode.TextEditorRevealType.InCenterIfOutsideViewport);
 }
-//# sourceMappingURL=policyPanel.js.map
+function clearHighlights() {
+    if (deco) {
+        deco.dispose();
+        deco = undefined;
+    }
+}
+//# sourceMappingURL=highlight.js.map
